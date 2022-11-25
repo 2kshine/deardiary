@@ -8,7 +8,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.20.0/ckeditor.js" integrity="sha512-BcYkQlDTKkWL0Unn6RhsIyd2TMm3CcaPf0Aw1vsV28Dj4tpodobCPiriytfnnndBmiqnbpi2EelwYHHATr04Kg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Compiled and minified JavaScript -->
     
     <link
@@ -24,6 +24,7 @@
   <body>
     <!--Inserting partial headers-->
     {{> _header}}
+    {{> _add_btn}}
     <div class="container">
         {{{body}}}
         
@@ -34,6 +35,11 @@
     <script>
       //Initialize sidenav for hamburger menu in materialize css.
       M.Sidenav.init(document.querySelector('.sidenav'))
+      M.FormSelect.init(document.querySelector('#status'))
+
+      CKEDITOR.replace('body', {
+        plugins: 'wysiwygarea, toolbar, basicstyles, link'
+      })
     </script>
   </body>
 </html>

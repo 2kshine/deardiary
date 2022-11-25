@@ -14,11 +14,13 @@ const cors = require("cors");
 const passport = require("passport");
 //importing express session
 const session = require("express-session");
-
+//importing connect-mongo for sessions
+const MongoStore = require("connect-mongo");
 //importing routes
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const userRoutes = require("./routes/userRoutes");
 const googleRoutes = require("./routes/googleRoutes");
+const diaryRoutes = require("./routes/diaryRoutes");
 //initializing app
 const app = express();
 
@@ -48,12 +50,13 @@ app.use(
     cookie: {
       secure: false,
       httpOnly: true,
-      maxAge: 30000,
+      maxAge: 600000,
     },
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI || MONGO_URI }),
   })
 );
 
-//Passport middleware
+//Passport middlewares
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -70,6 +73,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/v1/", dashboardRoutes);
 app.use("/api/v1/", userRoutes);
 app.use("/auth", googleRoutes);
+app.use("/api/v1/", diaryRoutes);
 
 //connecting to the database and starting server
 mongoose
